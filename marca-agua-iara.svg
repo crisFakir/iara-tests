@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="watermarkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:0.2" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:0.2" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Marca d'água principal -->
+  <text x="150" y="60" font-family="Arial, sans-serif" font-size="24" font-weight="200" 
+        text-anchor="middle" fill="url(#watermarkGradient)" letter-spacing="3">
+    IARA CARREIRA
+  </text>
+  
+  <!-- Versão ainda mais sutil para fundos claros -->
+  <text x="150" y="85" font-family="Arial, sans-serif" font-size="18" font-weight="100" 
+        text-anchor="middle" fill="#667eea" opacity="0.15" letter-spacing="2">
+    IARA CARREIRA
+  </text>
+</svg>
