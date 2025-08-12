@@ -1,0 +1,96 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Product {
+  id            String   @id @default(cuid())
+  name          String
+  slug          String   @unique
+  description   String
+  price         Float
+  comparePrice  Float
+  cost          Float    // Custo do fornecedor
+  images        String   // JSON array de URLs
+  category      String
+  tags          String   // JSON array
+  stock         Int      @default(9999)
+  featured      Boolean  @default(false)
+  bestseller    Boolean  @default(false)
+  rating        Float    @default(4.8)
+  reviews       Int      @default(127)
+  supplier      String?  // Link do fornecedor
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  orderItems    OrderItem[]
+}
+
+model Customer {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  name          String
+  phone         String?
+  address       String?
+  city          String?
+  postalCode    String?
+  country       String?
+  createdAt     DateTime @default(now())
+  
+  orders        Order[]
+}
+
+model Order {
+  id            String   @id @default(cuid())
+  orderNumber   String   @unique
+  customerId    String
+  customer      Customer @relation(fields: [customerId], references: [id])
+  
+  subtotal      Float
+  shipping      Float
+  total         Float
+  
+  status        String   @default("processing") // processing, shipped, delivered
+  paymentStatus String   @default("paid")
+  
+  shippingAddress String
+  billingAddress  String?
+  
+  stripePaymentId String?
+  
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+  
+  items         OrderItem[]
+}
+
+model OrderItem {
+  id            String   @id @default(cuid())
+  orderId       String
+  order         Order    @relation(fields: [orderId], references: [id])
+  productId     String
+  product       Product  @relation(fields: [productId], references: [id])
+  
+  quantity      Int
+  price         Float
+  total         Float
+  
+  createdAt     DateTime @default(now())
+}
+
+model EmailCapture {
+  id            String   @id @default(cuid())
+  email         String   @unique
+  source        String   // popup, checkout, footer
+  createdAt     DateTime @default(now())
+}
