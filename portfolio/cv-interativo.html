@@ -1,0 +1,608 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - UX/UI Designer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --secondary: #8b5cf6;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --text: #475569;
+            --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .cv-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            background: white;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .cv-header {
+            background: var(--gradient);
+            color: white;
+            padding: 3rem;
+            position: relative;
+        }
+
+        .cv-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: white;
+            clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-info h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-info .title {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .contact-item i {
+            width: 20px;
+        }
+
+        .header-photo {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            background: white;
+            overflow: hidden;
+        }
+
+        .header-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .cv-body {
+            padding: 3rem;
+            padding-top: 4rem;
+        }
+
+        .cv-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-title i {
+            color: var(--primary);
+        }
+
+        .summary {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text);
+        }
+
+        .experience-item,
+        .education-item {
+            margin-bottom: 2rem;
+            padding-left: 2rem;
+            position: relative;
+        }
+
+        .experience-item::before,
+        .education-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 8px;
+            width: 10px;
+            height: 10px;
+            background: var(--primary);
+            border-radius: 50%;
+        }
+
+        .experience-item::after,
+        .education-item::after {
+            content: '';
+            position: absolute;
+            left: 4px;
+            top: 18px;
+            width: 2px;
+            height: calc(100% + 10px);
+            background: #e2e8f0;
+        }
+
+        .experience-item:last-child::after,
+        .education-item:last-child::after {
+            display: none;
+        }
+
+        .item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 0.5rem;
+        }
+
+        .item-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .item-company {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .item-date {
+            color: var(--text);
+            font-size: 0.9rem;
+            background: var(--light);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+        }
+
+        .item-description {
+            color: var(--text);
+            line-height: 1.6;
+        }
+
+        .item-description ul {
+            margin-top: 0.5rem;
+            margin-left: 1rem;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+        }
+
+        .skill-category h3 {
+            font-size: 1.1rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .skill-tag {
+            background: var(--light);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+
+        .skill-tag:hover {
+            background: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .languages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .language-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .language-level {
+            flex: 1;
+            height: 8px;
+            background: var(--light);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .language-progress {
+            height: 100%;
+            background: var(--gradient);
+            border-radius: 10px;
+        }
+
+        .portfolio-links {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .portfolio-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--gradient);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: transform 0.3s;
+        }
+
+        .portfolio-link:hover {
+            transform: translateY(-3px);
+        }
+
+        .download-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--gradient);
+            color: white;
+            padding: 1rem;
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+            cursor: pointer;
+            transition: transform 0.3s;
+            z-index: 100;
+        }
+
+        .download-btn:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .cv-container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .cv-header {
+                padding: 2rem;
+            }
+
+            .header-content {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .header-photo {
+                margin-top: 1rem;
+            }
+
+            .cv-body {
+                padding: 2rem;
+            }
+
+            .item-header {
+                flex-direction: column;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media print {
+            .download-btn {
+                display: none;
+            }
+
+            .cv-container {
+                box-shadow: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cv-container">
+        <!-- Header -->
+        <div class="cv-header">
+            <div class="header-content">
+                <div class="header-info">
+                    <h1>[Seu Nome]</h1>
+                    <p class="title">UX/UI Designer</p>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>seu.email@exemplo.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+351 900 000 000</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Lisboa, Portugal</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fab fa-linkedin"></i>
+                            <span>linkedin.com/in/seunome</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="header-photo">
+                    <img src="https://via.placeholder.com/150" alt="Foto">
+                </div>
+            </div>
+        </div>
+
+        <!-- Body -->
+        <div class="cv-body">
+            <!-- Summary -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-user"></i>
+                    Resumo Profissional
+                </h2>
+                <p class="summary">
+                    Designer apaixonado por criar experiências digitais intuitivas e visualmente atrativas. 
+                    Com formação em Design de Comunicação e forte interesse em UX/UI, procuro uma oportunidade 
+                    para aplicar os meus conhecimentos e crescer profissionalmente. Combino criatividade com 
+                    pensamento analítico para resolver problemas complexos através do design.
+                </p>
+            </section>
+
+            <!-- Experience -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-briefcase"></i>
+                    Experiência
+                </h2>
+                
+                <div class="experience-item">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Projetos Freelance</h3>
+                            <p class="item-company">Trabalho Independente</p>
+                        </div>
+                        <span class="item-date">2023 - Presente</span>
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Desenvolvimento de identidades visuais para pequenas empresas</li>
+                            <li>Criação de protótipos e wireframes para aplicações web</li>
+                            <li>Design de interfaces responsivas com foco em usabilidade</li>
+                            <li>Colaboração direta com clientes para entender necessidades</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="experience-item">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Projeto Académico - Redesign App</h3>
+                            <p class="item-company">Universidade</p>
+                        </div>
+                        <span class="item-date">2023</span>
+                    </div>
+                    <div class="item-description">
+                        <ul>
+                            <li>Liderou equipa de 4 pessoas no redesign de aplicação bancária</li>
+                            <li>Conduziu pesquisa com utilizadores e testes de usabilidade</li>
+                            <li>Criou sistema de design completo no Figma</li>
+                            <li>Apresentou solução que aumentou satisfação em 87%</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Education -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-graduation-cap"></i>
+                    Formação
+                </h2>
+                
+                <div class="education-item">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Licenciatura em Design de Comunicação</h3>
+                            <p class="item-company">Nome da Universidade</p>
+                        </div>
+                        <span class="item-date">2020 - 2023</span>
+                    </div>
+                    <div class="item-description">
+                        <p>Média: 16 valores | Projetos em UX/UI, Branding, Design Editorial</p>
+                    </div>
+                </div>
+
+                <div class="education-item">
+                    <div class="item-header">
+                        <div>
+                            <h3 class="item-title">Google UX Design Certificate</h3>
+                            <p class="item-company">Coursera</p>
+                        </div>
+                        <span class="item-date">2023</span>
+                    </div>
+                    <div class="item-description">
+                        <p>Certificação profissional em UX Design com 7 cursos especializados</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Skills -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-tools"></i>
+                    Competências
+                </h2>
+                
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h3>Design</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">UI Design</span>
+                            <span class="skill-tag">UX Research</span>
+                            <span class="skill-tag">Wireframing</span>
+                            <span class="skill-tag">Prototipagem</span>
+                            <span class="skill-tag">Design Systems</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Ferramentas</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">Figma</span>
+                            <span class="skill-tag">Adobe XD</span>
+                            <span class="skill-tag">Photoshop</span>
+                            <span class="skill-tag">Illustrator</span>
+                            <span class="skill-tag">Sketch</span>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-category">
+                        <h3>Desenvolvimento</h3>
+                        <div class="skill-tags">
+                            <span class="skill-tag">HTML/CSS</span>
+                            <span class="skill-tag">JavaScript</span>
+                            <span class="skill-tag">Responsive Design</span>
+                            <span class="skill-tag">Git</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Languages -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-language"></i>
+                    Idiomas
+                </h2>
+                
+                <div class="languages-grid">
+                    <div class="language-item">
+                        <span>Português</span>
+                        <div class="language-level">
+                            <div class="language-progress" style="width: 100%"></div>
+                        </div>
+                    </div>
+                    <div class="language-item">
+                        <span>Inglês</span>
+                        <div class="language-level">
+                            <div class="language-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                    <div class="language-item">
+                        <span>Espanhol</span>
+                        <div class="language-level">
+                            <div class="language-progress" style="width: 60%"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Portfolio -->
+            <section class="cv-section">
+                <h2 class="section-title">
+                    <i class="fas fa-globe"></i>
+                    Portfolio & Links
+                </h2>
+                
+                <div class="portfolio-links">
+                    <a href="#" class="portfolio-link">
+                        <i class="fas fa-globe"></i>
+                        Portfolio Website
+                    </a>
+                    <a href="#" class="portfolio-link">
+                        <i class="fab fa-behance"></i>
+                        Behance
+                    </a>
+                    <a href="#" class="portfolio-link">
+                        <i class="fab fa-dribbble"></i>
+                        Dribbble
+                    </a>
+                    <a href="#" class="portfolio-link">
+                        <i class="fab fa-github"></i>
+                        GitHub
+                    </a>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Download Button -->
+    <div class="download-btn" onclick="window.print()">
+        <i class="fas fa-download"></i>
+    </div>
+
+    <script>
+        // Add smooth animations on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.cv-section').forEach(section => {
+            section.style.opacity = '0';
+            section.style.transform = 'translateY(20px)';
+            section.style.transition = 'all 0.6s ease';
+            observer.observe(section);
+        });
+    </script>
+</body>
+</html>
