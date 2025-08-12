@@ -1,0 +1,258 @@
+version: '3.9'
+
+services:
+  # PostgreSQL Primary Database
+  postgres-primary:
+    image: postgres:15-alpine
+    container_name: festival-db-primary
+    restart: always
+    environment:
+      POSTGRES_DB: festival_tickets
+      POSTGRES_USER: festival_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-strongpassword123}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=pt_PT.UTF-8"
+    volumes:
+      - postgres_primary_data:/var/lib/postgresql/data
+      - ./database/init.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "5432:5432"
+    networks:
+      - festival-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U festival_user -d festival_tickets"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # PostgreSQL Replica for High Availability
+  postgres-replica:
+    image: postgres:15-alpine
+    container_name: festival-db-replica
+    restart: always
+    environment:
+      POSTGRES_DB: festival_tickets
+      POSTGRES_USER: festival_user
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-strongpassword123}
+      POSTGRES_MASTER_SERVICE: postgres-primary
+    volumes:
+      - postgres_replica_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+    networks:
+      - festival-network
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+
+  # Redis Cluster for Caching
+  redis-master:
+    image: redis:7-alpine
+    container_name: festival-redis-master
+    restart: always
+    command: redis-server --appendonly yes --requirepass ${REDIS_PASSWORD:-redispass123}
+    volumes:
+      - redis_master_data:/data
+    ports:
+      - "6379:6379"
+    networks:
+      - festival-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  redis-slave1:
+    image: redis:7-alpine
+    container_name: festival-redis-slave1
+    restart: always
+    command: redis-server --appendonly yes --slaveof redis-master 6379 --requirepass ${REDIS_PASSWORD:-redispass123}
+    volumes:
+      - redis_slave1_data:/data
+    ports:
+      - "6380:6379"
+    networks:
+      - festival-network
+    depends_on:
+      - redis-master
+
+  redis-slave2:
+    image: redis:7-alpine
+    container_name: festival-redis-slave2
+    restart: always
+    command: redis-server --appendonly yes --slaveof redis-master 6379 --requirepass ${REDIS_PASSWORD:-redispass123}
+    volumes:
+      - redis_slave2_data:/data
+    ports:
+      - "6381:6379"
+    networks:
+      - festival-network
+    depends_on:
+      - redis-master
+
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: festival-backend
+    restart: always
+    environment:
+      NODE_ENV: production
+      DATABASE_URL: postgresql://festival_user:${DB_PASSWORD:-strongpassword123}@postgres-primary:5432/festival_tickets
+      DATABASE_REPLICA_URL: postgresql://festival_user:${DB_PASSWORD:-strongpassword123}@postgres-replica:5432/festival_tickets
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redispass123}@redis-master:6379
+      JWT_SECRET: ${JWT_SECRET}
+      MBWAY_API_KEY: ${MBWAY_API_KEY}
+      MBWAY_ENTITY: ${MBWAY_ENTITY}
+      MBWAY_SUBENTITY: ${MBWAY_SUBENTITY}
+      MBWAY_WEBHOOK_SECRET: ${MBWAY_WEBHOOK_SECRET}
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+      - logs:/app/logs
+    ports:
+      - "3000:3000"
+    networks:
+      - festival-network
+    depends_on:
+      postgres-primary:
+        condition: service_healthy
+      redis-master:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # Frontend Web App
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: festival-frontend
+    restart: always
+    environment:
+      VITE_API_URL: http://backend:3000
+      VITE_WS_URL: ws://backend:3000
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    networks:
+      - festival-network
+    depends_on:
+      - backend
+
+  # Nginx Load Balancer & Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: festival-nginx
+    restart: always
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl
+      - nginx_cache:/var/cache/nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - festival-network
+    depends_on:
+      - backend
+      - frontend
+    healthcheck:
+      test: ["CMD", "nginx", "-t"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # PgAdmin for Database Management
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: festival-pgadmin
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@festivaltickets.pt
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin123}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - festival-network
+    depends_on:
+      - postgres-primary
+
+  # Backup Service
+  backup:
+    image: postgres:15-alpine
+    container_name: festival-backup
+    restart: always
+    environment:
+      PGPASSWORD: ${DB_PASSWORD:-strongpassword123}
+    volumes:
+      - ./backups:/backups
+      - ./scripts/backup.sh:/backup.sh
+    command: /bin/sh -c "chmod +x /backup.sh && crond -f -l 2"
+    networks:
+      - festival-network
+    depends_on:
+      - postgres-primary
+
+  # Monitoring with Prometheus
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: festival-prometheus
+    restart: always
+    volumes:
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+    ports:
+      - "9090:9090"
+    networks:
+      - festival-network
+
+  # Grafana for Visualization
+  grafana:
+    image: grafana/grafana:latest
+    container_name: festival-grafana
+    restart: always
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-grafana123}
+      GF_INSTALL_PLUGINS: redis-datasource
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./monitoring/grafana/dashboards:/etc/grafana/provisioning/dashboards
+    ports:
+      - "3001:3000"
+    networks:
+      - festival-network
+    depends_on:
+      - prometheus
+
+networks:
+  festival-network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+volumes:
+  postgres_primary_data:
+  postgres_replica_data:
+  redis_master_data:
+  redis_slave1_data:
+  redis_slave2_data:
+  pgadmin_data:
+  prometheus_data:
+  grafana_data:
+  nginx_cache:
+  logs:
