@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marca IC Elegante - Iara Carreira</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+        
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Inter', sans-serif;
+            background: #ffffff;
+            min-height: 100vh;
+            color: #1a1a1a;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .header {
+            margin: 60px 0;
+        }
+
+        .marca-title {
+            font-size: 4rem;
+            font-weight: 100;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: 8px;
+        }
+
+        .marca-subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 3px;
+            margin-bottom: 20px;
+        }
+
+        .marca-section {
+            margin: 60px 0;
+            padding: 50px;
+            background: #fafafa;
+            border-radius: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            font-weight: 300;
+            color: #1a1a1a;
+            margin-bottom: 10px;
+            letter-spacing: 2px;
+        }
+
+        .section-subtitle {
+            font-size: 1rem;
+            color: #666;
+            font-weight: 300;
+            margin-bottom: 50px;
+        }
+
+        .logo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+            margin: 40px 0;
+        }
+
+        .logo-item {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .logo-item h3 {
+            font-size: 1rem;
+            font-weight: 400;
+            color: #555;
+            margin: 20px 0 10px 0;
+            letter-spacing: 1px;
+        }
+
+        .logo-item p {
+            font-size: 0.9rem;
+            color: #888;
+            font-weight: 300;
+            line-height: 1.5;
+        }
+
+        .download-section {
+            margin: 60px 0;
+            padding: 40px;
+            background: #1a1a1a;
+            border-radius: 30px;
+            color: white;
+        }
+
+        .download-section h2 {
+            font-size: 1.8rem;
+            font-weight: 300;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .download-section p {
+            font-size: 1rem;
+            font-weight: 300;
+            margin-bottom: 30px;
+            opacity: 0.8;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 25px;
+            background: white;
+            color: #1a1a1a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 400;
+            margin: 8px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            font-size: 13px;
+            letter-spacing: 1px;
+        }
+
+        .download-btn:hover {
+            background: #f0f0f0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .concept {
+            margin: 60px 0;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 30px;
+            text-align: left;
+        }
+
+        .concept h3 {
+            color: #1a1a1a;
+            margin-bottom: 25px;
+            font-weight: 400;
+            font-size: 1.5rem;
+        }
+
+        .concept p {
+            color: #555;
+            line-height: 1.8;
+            margin-bottom: 20px;
+            font-weight: 300;
+        }
+
+        /* Marcas Elegantes */
+        .ic-1 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ic-1::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-2 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            transform: rotate(45deg);
+        }
+
+        .ic-2::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            transform: rotate(-45deg);
+        }
+
+        .ic-3 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+        }
+
+        .ic-3::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-4 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+        }
+
+        .ic-4::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-5 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: rotate(45deg);
+        }
+
+        .ic-5::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            transform: rotate(-45deg);
+        }
+
+        .ic-6 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+        }
+
+        .ic-6::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-7 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 20%, 20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%);
+        }
+
+        .ic-7::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-8 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+        }
+
+        .ic-8::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            transform: translateY(10px);
+        }
+
+        .ic-9 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 70%, 70% 100%, 0% 100%);
+        }
+
+        .ic-9::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-10 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(30% 0%, 70% 0%, 100% 30%, 100% 70%, 70% 100%, 30% 100%, 0% 70%, 0% 30%);
+        }
+
+        .ic-10::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-11 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: skew(-15deg);
+        }
+
+        .ic-11::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            transform: skew(15deg);
+        }
+
+        .ic-12 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: skew(15deg);
+        }
+
+        .ic-12::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+            transform: skew(-15deg);
+        }
+
+        .ic-13 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: perspective(200px) rotateY(15deg);
+        }
+
+        .ic-13::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-14 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: perspective(200px) rotateX(15deg);
+        }
+
+        .ic-14::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+
+        .ic-15 {
+            width: 120px;
+            height: 120px;
+            background: #1a1a1a;
+            border-radius: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            position: relative;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transform: perspective(200px) rotateZ(15deg);
+        }
+
+        .ic-15::before {
+            content: 'IC';
+            color: white;
+            font-size: 2.2rem;
+            font-weight: 200;
+            letter-spacing: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="marca-title">IC</h1>
+            <p class="marca-subtitle">IARA CARREIRA</p>
+        </div>
+        
+        <div class="marca-section">
+            <h2 class="section-title">Design Minimalista</h2>
+            <p class="section-subtitle">Formas geométricas puras com tipografia elegante</p>
+            
+            <div class="logo-grid">
+                <div class="logo-item">
+                    <div class="ic-1"></div>
+                    <h3>Circular</h3>
+                    <p>Forma perfeita e equilibrada</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-2"></div>
+                    <h3>Rotacionado</h3>
+                    <p>Dinâmico e moderno</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-3"></div>
+                    <h3>Hexágono</h3>
+                    <p>Geometria sagrada</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-4"></div>
+                    <h3>Octágono</h3>
+                    <p>Elegância angular</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-5"></div>
+                    <h3>Quadrado</h3>
+                    <p>Simplicidade absoluta</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-6"></div>
+                    <h3>Losango</h3>
+                    <p>Direção e movimento</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-7"></div>
+                    <h3>Estrela</h3>
+                    <p>Brilho e destaque</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-8"></div>
+                    <h3>Triângulo</h3>
+                    <p>Estabilidade e crescimento</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-9"></div>
+                    <h3>L</h3>
+                    <p>Estrutura e base</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-10"></div>
+                    <h3>Octágono Suave</h3>
+                    <p>Harmonia e fluidez</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-11"></div>
+                    <h3>Inclinado Esquerda</h3>
+                    <p>Movimento retrógrado</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-12"></div>
+                    <h3>Inclinado Direita</h3>
+                    <p>Progresso e avanço</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-13"></div>
+                    <h3>3D Y</h3>
+                    <p>Profundidade lateral</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-14"></div>
+                    <h3>3D X</h3>
+                    <p>Profundidade vertical</p>
+                </div>
+                
+                <div class="logo-item">
+                    <div class="ic-15"></div>
+                    <h3>3D Z</h3>
+                    <p>Profundidade rotacional</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="download-section">
+            <h2>Download das Marcas</h2>
+            <p>Escolha sua marca preferida e faça o download em alta qualidade</p>
+            
+            <button class="download-btn" onclick="downloadMarca('ic-1', 'ic-circular')">Circular</button>
+            <button class="download-btn" onclick="downloadMarca('ic-2', 'ic-rotacionado')">Rotacionado</button>
+            <button class="download-btn" onclick="downloadMarca('ic-3', 'ic-hexagono')">Hexágono</button>
+            <button class="download-btn" onclick="downloadMarca('ic-4', 'ic-octagono')">Octágono</button>
+            <button class="download-btn" onclick="downloadMarca('ic-5', 'ic-quadrado')">Quadrado</button>
+            <button class="download-btn" onclick="downloadMarca('ic-6', 'ic-losango')">Losango</button>
+            <button class="download-btn" onclick="downloadMarca('ic-7', 'ic-estrela')">Estrela</button>
+            <button class="download-btn" onclick="downloadMarca('ic-8', 'ic-triangulo')">Triângulo</button>
+            <button class="download-btn" onclick="downloadMarca('ic-9', 'ic-l')">L</button>
+            <button class="download-btn" onclick="downloadMarca('ic-10', 'ic-octagono-suave')">Octágono Suave</button>
+            <button class="download-btn" onclick="downloadMarca('ic-11', 'ic-inclinado-esquerda')">Inclinado Esquerda</button>
+            <button class="download-btn" onclick="downloadMarca('ic-12', 'ic-inclinado-direita')">Inclinado Direita</button>
+            <button class="download-btn" onclick="downloadMarca('ic-13', 'ic-3d-y')">3D Y</button>
+            <button class="download-btn" onclick="downloadMarca('ic-14', 'ic-3d-x')">3D X</button>
+            <button class="download-btn" onclick="downloadMarca('ic-15', 'ic-3d-z')">3D Z</button>
+        </div>
+
+        <div class="concept">
+            <h3>Filosofia da Marca</h3>
+            <p><strong>Minimalismo:</strong> A essência da marca está na simplicidade. Apenas as letras I e C, sem elementos desnecessários.</p>
+            <p><strong>Geometria:</strong> Cada forma representa uma abordagem diferente, mas todas mantêm a pureza matemática e a elegância estrutural.</p>
+            <p><strong>Tipografia:</strong> A fonte Inter, com peso 200 e espaçamento generoso, transmite sofisticação e legibilidade.</p>
+            <p><strong>Versatilidade:</strong> As 15 variações permitem adaptação a diferentes contextos, mantendo sempre a identidade visual.</p>
+            <p><strong>Atemporalidade:</strong> O design minimalista garante que a marca nunca fique datada ou ultrapassada.</p>
+        </div>
+    </div>
+
+    <script>
+        function downloadMarca(elementId, filename) {
+            try {
+                const element = document.querySelector('.' + elementId);
+                const canvas = document.createElement('canvas');
+                const ctx = canvas.getContext('2d');
+                
+                canvas.width = 480; // 4x o tamanho original para ultra alta qualidade
+                canvas.height = 480;
+                
+                // Desenhar fundo
+                ctx.fillStyle = '#1a1a1a';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+                
+                // Desenhar texto IC
+                ctx.fillStyle = 'white';
+                ctx.font = '200 200px Inter';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('IC', canvas.width/2, canvas.height/2);
+                
+                // Download
+                const link = document.createElement('a');
+                link.download = filename + '.png';
+                link.href = canvas.toDataURL('image/png');
+                
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                alert('✅ Download iniciado! Se não funcionar, clique com botão direito na marca e selecione "Salvar imagem como..."');
+                
+            } catch (error) {
+                alert('⚠️ Use o método alternativo: clique com botão direito na marca e selecione "Salvar imagem como..."');
+            }
+        }
+    </script>
+</body>
+</html>

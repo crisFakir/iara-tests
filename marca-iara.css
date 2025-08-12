@@ -1,0 +1,277 @@
+/* ========================================
+   MARCA GRÁFICA - IARA CARREIRA
+   CSS para usar em diferentes projetos
+   ======================================== */
+
+/* Importar fontes (opcional) */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap');
+
+/* Variáveis CSS para cores da marca */
+:root {
+  --marca-primary: #667eea;
+  --marca-secondary: #764ba2;
+  --marca-text: #333333;
+  --marca-text-light: #666666;
+  --marca-text-lighter: #999999;
+  --marca-gradient: linear-gradient(45deg, #667eea, #764ba2);
+  --marca-gradient-subtle: linear-gradient(45deg, rgba(102, 126, 234, 0.3), rgba(118, 75, 162, 0.3));
+}
+
+/* ========================================
+   MARCA PRINCIPAL
+   ======================================== */
+.marca-iara-principal {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 300;
+  color: var(--marca-text);
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* ========================================
+   MARCA SIMPLES
+   ======================================== */
+.marca-iara-simples {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 200;
+  color: var(--marca-text);
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* ========================================
+   MARCA MINIMALISTA
+   ======================================== */
+.marca-iara-minimalista {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 100;
+  color: var(--marca-text-lighter);
+  letter-spacing: 4px;
+  text-align: center;
+  margin: 15px 0;
+}
+
+/* ========================================
+   MARCA COM DESTAQUE (GRADIENTE)
+   ======================================== */
+.marca-iara-destaque {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 3rem;
+  font-weight: 600;
+  background: var(--marca-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 20px 0;
+}
+
+/* ========================================
+   MARCA VERTICAL
+   ======================================== */
+.marca-iara-vertical {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 300;
+  color: var(--marca-text);
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  letter-spacing: 1px;
+  margin: 20px 0;
+}
+
+/* ========================================
+   MARCA CIRCULAR
+   ======================================== */
+.marca-iara-circulo {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: var(--marca-gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  color: white;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.2;
+}
+
+/* ========================================
+   MARCA QUADRADA
+   ======================================== */
+.marca-iara-quadrado {
+  width: 200px;
+  height: 200px;
+  background: var(--marca-gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 20px auto;
+  color: white;
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  text-align: center;
+  line-height: 1.2;
+  border-radius: 15px;
+}
+
+/* ========================================
+   MARCA D'ÁGUA - PRINCIPAL
+   ======================================== */
+.marca-iara-agua {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 200;
+  color: var(--marca-primary);
+  opacity: 0.3;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 20px 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   MARCA D'ÁGUA - SUTIL
+   ======================================== */
+.marca-iara-agua-sutil {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 100;
+  color: var(--marca-primary);
+  opacity: 0.15;
+  letter-spacing: 3px;
+  text-align: center;
+  margin: 15px 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   MARCA D'ÁGUA - GRADIENTE
+   ======================================== */
+.marca-iara-agua-gradiente {
+  font-family: 'Inter', 'Arial', sans-serif;
+  font-size: 2rem;
+  font-weight: 200;
+  background: var(--marca-gradient-subtle);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  letter-spacing: 2px;
+  text-align: center;
+  margin: 20px 0;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* ========================================
+   MARCA D'ÁGUA - POSICIONAMENTO
+   ======================================== */
+.marca-iara-agua-top-left {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  transform: rotate(-15deg);
+}
+
+.marca-iara-agua-top-right {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  transform: rotate(15deg);
+}
+
+.marca-iara-agua-bottom-left {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  transform: rotate(-15deg);
+}
+
+.marca-iara-agua-bottom-right {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  transform: rotate(15deg);
+}
+
+.marca-iara-agua-center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-15deg);
+}
+
+/* ========================================
+   MARCA D'ÁGUA - RESPONSIVA
+   ======================================== */
+@media (max-width: 768px) {
+  .marca-iara-principal { font-size: 2.5rem; }
+  .marca-iara-simples { font-size: 2rem; }
+  .marca-iara-minimalista { font-size: 1.5rem; }
+  .marca-iara-destaque { font-size: 2.5rem; }
+  .marca-iara-agua { font-size: 1.5rem; }
+  .marca-iara-agua-sutil { font-size: 1.2rem; }
+}
+
+@media (max-width: 480px) {
+  .marca-iara-principal { font-size: 2rem; }
+  .marca-iara-simples { font-size: 1.5rem; }
+  .marca-iara-minimalista { font-size: 1.2rem; }
+  .marca-iara-destaque { font-size: 2rem; }
+  .marca-iara-agua { font-size: 1.2rem; }
+  .marca-iara-agua-sutil { font-size: 1rem; }
+}
+
+/* ========================================
+   ANIMAÇÕES (OPCIONAL)
+   ======================================== */
+.marca-iara-hover:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+
+.marca-iara-fade-in {
+  animation: fadeIn 1s ease-in;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ========================================
+   UTILITÁRIOS
+   ======================================== */
+.marca-iara-no-select {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.marca-iara-pointer-none {
+  pointer-events: none;
+}
+
+.marca-iara-print {
+  @media print {
+    opacity: 0.1 !important;
+  }
+}
