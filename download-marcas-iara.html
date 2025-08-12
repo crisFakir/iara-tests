@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Download Marcas Iara Carreira - PNG</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a3a 50%, #2d1b69 100%);
+            min-height: 100vh;
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .marca-card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 30px 0;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .marca-card h2 {
+            color: #00d4ff;
+            margin-bottom: 20px;
+        }
+
+        .marca-preview {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        .download-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(45deg, #00d4ff, #ff6b9d);
+            border-radius: 15px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: rgba(255,255,255,0.2);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 600;
+            margin: 10px;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(255,255,255,0.3);
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .download-btn:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+        }
+
+        .info-box {
+            background: rgba(255,255,255,0.05);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .info-box h3 {
+            color: #00d4ff;
+            margin-top: 0;
+        }
+
+        .info-box p {
+            color: #ccc;
+            line-height: 1.6;
+        }
+
+        .troubleshoot {
+            background: rgba(255, 107, 157, 0.2);
+            border: 2px solid rgba(255, 107, 157, 0.5);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+
+        .troubleshoot h3 {
+            color: #ff6b9d;
+            margin-top: 0;
+        }
+
+        .troubleshoot ul {
+            color: #ccc;
+            text-align: left;
+        }
+
+        .troubleshoot li {
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎨 Download das Marcas Iara Carreira</h1>
+        <p>Clique nos botões de download para baixar suas marcas em PNG de alta qualidade</p>
+
+        <!-- Marca Principal -->
+        <div class="marca-card">
+            <h2>🎯 Marca Principal</h2>
+            <p>Símbolo IC com nome completo e tagline</p>
+            
+            <div class="marca-preview">
+                <canvas id="canvas1" width="400" height="200"></canvas>
+            </div>
+            
+            <div class="download-section">
+                <button class="download-btn" onclick="downloadMarca('canvas1', 'marca-principal-iara')">
+                    📥 Download PNG - Marca Principal
+                </button>
+            </div>
+        </div>
+
+        <!-- Marca Simbólica -->
+        <div class="marca-card">
+            <h2>🔤 Marca Simbólica</h2>
+            <p>Cada letra como símbolo individual</p>
+            
+            <div class="marca-preview">
+                <canvas id="canvas2" width="500" height="200"></canvas>
+            </div>
+            
+            <div class="download-section">
+                <button class="download-btn" onclick="downloadMarca('canvas2', 'marca-simbolica-iara')">
+                    📥 Download PNG - Marca Simbólica
+                </button>
+            </div>
+        </div>
+
+        <!-- Marca Geométrica -->
+        <div class="marca-card">
+            <h2>🔷 Marca Geométrica</h2>
+            <p>Forma hexagonal com gradientes</p>
+            
+            <div class="marca-preview">
+                <canvas id="canvas3" width="300" height="300"></canvas>
+            </div>
+            
+            <div class="download-section">
+                <button class="download-btn" onclick="downloadMarca('canvas3', 'marca-geometrica-iara')">
+                    📥 Download PNG - Marca Geométrica
+                </button>
+            </div>
+        </div>
+
+        <!-- Marca Futurista -->
+        <div class="marca-card">
+            <h2>🚀 Marca Futurista</h2>
+            <p>Círculos concêntricos com gradientes</p>
+            
+            <div class="marca-preview">
+                <canvas id="canvas4" width="300" height="300"></canvas>
+            </div>
+            
+            <div class="download-section">
+                <button class="download-btn" onclick="downloadMarca('canvas4', 'marca-futurista-iara')">
+                    📥 Download PNG - Marca Futurista
+                </button>
+            </div>
+        </div>
+
+        <!-- Informações -->
+        <div class="info-box">
+            <h3>💡 Sobre as Marcas</h3>
+            <p><strong>Paleta de Cores:</strong> Azul ciano (#00d4ff), Rosa (#ff6b9d), Amarelo (#ffd93d)</p>
+            <p><strong>Conceito:</strong> Cada marca representa um aspecto diferente da sua identidade - inovação, criatividade e arte</p>
+            <p><strong>Formato:</strong> PNG com fundo transparente para uso em qualquer projeto</p>
+            <p><strong>Resolução:</strong> Alta qualidade para impressão e uso digital</p>
+        </div>
+
+        <!-- Solução de Problemas -->
+        <div class="troubleshoot">
+            <h3>🔧 Se o Download Não Funcionar</h3>
+            <ul>
+                <li><strong>Problema:</strong> Botão não responde</li>
+                <li><strong>Solução:</strong> Clique com o botão direito no canvas e selecione "Salvar imagem como..."</li>
+                <li><strong>Problema:</strong> Arquivo não baixa</li>
+                <li><strong>Solução:</strong> Verifique se o seu navegador permite downloads</li>
+                <li><strong>Problema:</strong> Imagem não aparece</li>
+                <li><strong>Solução:</strong> Recarregue a página (F5)</li>
+            </ul>
+        </div>
+
+        <!-- Instruções Alternativas -->
+        <div class="info-box">
+            <h3>📋 Instruções Alternativas de Download</h3>
+            <p><strong>Método 1:</strong> Clique nos botões de download</p>
+            <p><strong>Método 2:</strong> Clique com botão direito no canvas → "Salvar imagem como..."</p>
+            <p><strong>Método 3:</strong> Use a tecla Print Screen (PrtScn) e cole no Paint</p>
+            <p><strong>Método 4:</strong> Use ferramentas de captura de tela do seu sistema</p>
+        </div>
+    </div>
+
+    <script>
+        // Cores da marca
+        const cores = {
+            azul: '#00d4ff',
+            rosa: '#ff6b9d',
+            amarelo: '#ffd93d'
+        };
+
+        // Função para criar gradiente
+        function criarGradiente(ctx, x0, y0, x1, y1, cor1, cor2) {
+            const gradiente = ctx.createLinearGradient(x0, y0, x1, y1);
+            gradiente.addColorStop(0, cor1);
+            gradiente.addColorStop(1, cor2);
+            return gradiente;
+        }
+
+        // Função para criar gradiente radial
+        function criarGradienteRadial(ctx, x0, y0, r0, x1, y1, r1, cor1, cor2) {
+            const gradiente = ctx.createRadialGradient(x0, y0, r0, x1, y1, r1);
+            gradiente.addColorStop(0, cor1);
+            gradiente.addColorStop(1, cor2);
+            return gradiente;
+        }
+
+        // Marca Principal
+        function desenharMarcaPrincipal() {
+            const canvas = document.getElementById('canvas1');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = 100;
+            const centerY = 100;
+            const radius = 40;
+            
+            // Círculo com gradiente
+            const gradienteCirculo = criarGradienteRadial(ctx, centerX, centerY, 0, centerX, centerY, radius, cores.azul, cores.rosa);
+            ctx.fillStyle = gradienteCirculo;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Texto IC
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 30px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IC', centerX, centerY);
+            
+            // Nome da marca
+            ctx.fillStyle = cores.azul;
+            ctx.font = 'bold 24px Arial';
+            ctx.fillText('IARA CARREIRA', 250, 80);
+            
+            // Tagline
+            ctx.fillStyle = cores.rosa;
+            ctx.font = '16px Arial';
+            ctx.fillText('INNOVATION • CREATIVITY • ARTISTRY', 250, 120);
+        }
+
+        // Marca Simbólica
+        function desenharMarcaSimbolica() {
+            const canvas = document.getElementById('canvas2');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const letras = 'IARA CARREIRA';
+            let startX = 25;
+            
+            for (let i = 0; i < letras.length; i++) {
+                if (letras[i] === ' ') {
+                    startX += 20;
+                    continue;
+                }
+                
+                const x = startX + i * 35;
+                const y = 75;
+                const size = 30;
+                
+                // Quadrado com gradiente
+                const gradiente = criarGradiente(ctx, x, y, x + size, y + size, cores.azul, cores.rosa);
+                ctx.fillStyle = gradiente;
+                ctx.fillRect(x, y, size, size);
+                
+                // Letra
+                ctx.fillStyle = 'white';
+                ctx.font = 'bold 18px Arial';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(letras[i], x + size/2, y + size/2);
+                
+                startX += 35;
+            }
+        }
+
+        // Marca Geométrica
+        function desenharMarcaGeometrica() {
+            const canvas = document.getElementById('canvas3');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = 150;
+            const centerY = 150;
+            const radius = 75;
+            
+            // Hexágono externo
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = i * Math.PI / 3;
+                const x = centerX + radius * Math.cos(angle);
+                const y = centerY + radius * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            
+            const gradienteExterno = criarGradiente(ctx, centerX - radius, centerY - radius, centerX + radius, centerY + radius, cores.azul, cores.rosa);
+            ctx.fillStyle = gradienteExterno;
+            ctx.fill();
+            
+            // Hexágono interno
+            const innerRadius = 50;
+            ctx.beginPath();
+            for (let i = 0; i < 6; i++) {
+                const angle = i * Math.PI / 3;
+                const x = centerX + innerRadius * Math.cos(angle);
+                const y = centerY + innerRadius * Math.sin(angle);
+                if (i === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            }
+            ctx.closePath();
+            
+            const gradienteInterno = criarGradiente(ctx, centerX - innerRadius, centerY - innerRadius, centerX + innerRadius, centerY + innerRadius, cores.rosa, cores.amarelo);
+            ctx.fillStyle = gradienteInterno;
+            ctx.fill();
+            
+            // Texto IC
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 36px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IC', centerX, centerY);
+        }
+
+        // Marca Futurista
+        function desenharMarcaFuturista() {
+            const canvas = document.getElementById('canvas4');
+            const ctx = canvas.getContext('2d');
+            
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            const centerX = 150;
+            const centerY = 150;
+            
+            // Círculo externo
+            const gradienteExterno = criarGradienteRadial(ctx, centerX, centerY, 0, centerX, centerY, 90, cores.azul, cores.amarelo);
+            ctx.fillStyle = gradienteExterno;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 90, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Círculo interno
+            const gradienteInterno = criarGradienteRadial(ctx, centerX, centerY, 0, centerX, centerY, 60, cores.rosa, cores.amarelo);
+            ctx.fillStyle = gradienteInterno;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 60, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Círculo central
+            const gradienteCentral = criarGradienteRadial(ctx, centerX, centerY, 0, centerX, centerY, 30, cores.azul, cores.rosa);
+            ctx.fillStyle = gradienteCentral;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 30, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Texto IC
+            ctx.fillStyle = 'white';
+            ctx.font = 'bold 30px Arial';
+            ctx.textAlign = 'center';
+            ctx.textBaseline = 'middle';
+            ctx.fillText('IC', centerX, centerY);
+        }
+
+        // Função para download
+        function downloadMarca(canvasId, filename) {
+            try {
+                const canvas = document.getElementById(canvasId);
+                const link = document.createElement('a');
+                link.download = filename + '.png';
+                link.href = canvas.toDataURL('image/png');
+                
+                // Tentar download automático
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+                
+                // Mostrar mensagem de sucesso
+                alert('✅ Download iniciado! Se não funcionar, use o método alternativo: clique com botão direito no canvas e selecione "Salvar imagem como..."');
+                
+            } catch (error) {
+                // Se falhar, mostrar instruções alternativas
+                alert('⚠️ Download automático não funcionou. Use o método alternativo:\n\n1. Clique com botão direito no canvas\n2. Selecione "Salvar imagem como..."\n3. Escolha o local e salve');
+            }
+        }
+
+        // Desenhar todas as marcas quando a página carregar
+        window.onload = function() {
+            desenharMarcaPrincipal();
+            desenharMarcaSimbolica();
+            desenharMarcaGeometrica();
+            desenharMarcaFuturista();
+        };
+    </script>
+</body>
+</html>
