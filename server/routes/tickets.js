@@ -18,9 +18,7 @@ router.post('/reserve', async (req, res) => {
     }
 
     // Simular verificação de disponibilidade
-    const festival = require('./festivals').getFestivalById ? 
-      require('./festivals').getFestivalById(festivalId) : 
-      { availableTickets: 1000, price: 75.00 };
+    const festival = { availableTickets: 1000, price: 75.00 };
 
     if (festival.availableTickets < quantity) {
       return res.status(400).json({ 

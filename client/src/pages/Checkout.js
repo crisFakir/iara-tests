@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 import { useForm } from 'react-hook-form';
 import { FaMobileAlt, FaCreditCard, FaShieldAlt, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 import toast from 'react-hot-toast';

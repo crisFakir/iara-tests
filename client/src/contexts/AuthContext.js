@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import toast from 'react-hot-toast';
 
@@ -18,14 +18,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Verificar token ao carregar
-  useEffect(() => {
-    if (token) {
-      verifyToken();
-    }
-  }, []);
-
-  const verifyToken = async () => {
+  const verifyToken = useCallback(async () => {
     try {
       const response = await fetch('/api/auth/verify', {
         headers: {
@@ -40,7 +33,14 @@ export const AuthProvider = ({ children }) => {
       console.error('Erro ao verificar token:', error);
       logout();
     }
-  };
+  }, [token]);
+
+  // Verificar token ao carregar
+  useEffect(() => {
+    if (token) {
+      verifyToken();
+    }
+  }, [token, verifyToken]);
 
   const login = async (email, password) => {
     setLoading(true);

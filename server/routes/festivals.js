@@ -50,6 +50,11 @@ let festivals = [
   }
 ];
 
+// Função auxiliar para obter festival por ID
+function getFestivalById(id) {
+  return festivals.find(f => f.id === id);
+}
+
 // GET - Listar todos os festivais
 router.get('/', (req, res) => {
   try {

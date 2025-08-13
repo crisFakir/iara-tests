@@ -1,19 +1,19 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
-import { FaCheckCircle, FaHome, FaUser } from 'react-icons/fa';
+import { FaTimesCircle, FaHome, FaTicketAlt, FaExclamationTriangle } from 'react-icons/fa';
 
-const SuccessContainer = styled.div`
+const FailedContainer = styled.div`
   min-height: 100vh;
-  background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2rem;
 `;
 
-const SuccessCard = styled(motion.div)`
+const FailedCard = styled(motion.div)`
   background: white;
   padding: 3rem;
   border-radius: 20px;
@@ -23,10 +23,10 @@ const SuccessCard = styled(motion.div)`
   text-align: center;
 `;
 
-const SuccessIcon = styled.div`
+const FailedIcon = styled.div`
   width: 80px;
   height: 80px;
-  background: #10b981;
+  background: #ef4444;
   border-radius: 50%;
   display: flex;
   align-items: center;
@@ -36,23 +36,23 @@ const SuccessIcon = styled.div`
   font-size: 2.5rem;
 `;
 
-const SuccessTitle = styled.h1`
+const FailedTitle = styled.h1`
   font-size: 2rem;
   font-weight: 700;
   color: #1f2937;
   margin-bottom: 1rem;
 `;
 
-const SuccessMessage = styled.p`
+const FailedMessage = styled.p`
   color: #6b7280;
   font-size: 1.1rem;
   line-height: 1.6;
   margin-bottom: 2rem;
 `;
 
-const PaymentDetails = styled.div`
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
+const ErrorDetails = styled.div`
+  background: #fef2f2;
+  border: 1px solid #fecaca;
   border-radius: 12px;
   padding: 1.5rem;
   margin-bottom: 2rem;
@@ -77,7 +77,7 @@ const DetailLabel = styled.span`
 
 const DetailValue = styled.span`
   font-weight: 600;
-  color: #059669;
+  color: #dc2626;
 `;
 
 const ActionButtons = styled.div`
@@ -101,11 +101,11 @@ const ActionButton = styled(Link)`
   transition: all 0.3s ease;
   
   &.primary {
-    background: #10b981;
+    background: #ef4444;
     color: white;
     
     &:hover {
-      background: #059669;
+      background: #dc2626;
       transform: translateY(-2px);
     }
   }
@@ -122,35 +122,35 @@ const ActionButton = styled(Link)`
   }
 `;
 
-const PaymentSuccess = () => {
+const PaymentFailed = () => {
   const location = useLocation();
-  const { paymentId, amount, festivalName } = location.state || {};
+  const { paymentId, amount, festivalName, error } = location.state || {};
 
   return (
-    <SuccessContainer>
-      <SuccessCard
+    <FailedContainer>
+      <FailedCard
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6 }}
       >
-        <SuccessIcon>
-          <FaCheckCircle />
-        </SuccessIcon>
+        <FailedIcon>
+          <FaTimesCircle />
+        </FailedIcon>
 
-        <SuccessTitle>Pagamento Realizado com Sucesso!</SuccessTitle>
+        <FailedTitle>Pagamento Falhou</FailedTitle>
         
-        <SuccessMessage>
-          O teu bilhete foi confirmado e enviado para o teu email. 
-          Guarda esta informação para referência futura.
-        </SuccessMessage>
+        <FailedMessage>
+          Ocorreu um erro ao processar o teu pagamento. 
+          Não te preocupes, não foste cobrado. Tenta novamente ou contacta o suporte.
+        </FailedMessage>
 
-        <PaymentDetails>
+        <ErrorDetails>
           <DetailRow>
             <DetailLabel>Festival:</DetailLabel>
-            <DetailValue>{festivalName || 'Festival'}</DetailValue>
+            <DetailValue>{festivalName || 'N/A'}</DetailValue>
           </DetailRow>
           <DetailRow>
-            <DetailLabel>Valor Pago:</DetailLabel>
+            <DetailLabel>Valor:</DetailLabel>
             <DetailValue>€{amount?.toFixed(2) || '0.00'}</DetailValue>
           </DetailRow>
           <DetailRow>
@@ -158,24 +158,24 @@ const PaymentSuccess = () => {
             <DetailValue>{paymentId || 'N/A'}</DetailValue>
           </DetailRow>
           <DetailRow>
-            <DetailLabel>Data:</DetailLabel>
-            <DetailValue>{new Date().toLocaleDateString('pt-PT')}</DetailValue>
+            <DetailLabel>Erro:</DetailLabel>
+            <DetailValue>{error || 'Erro desconhecido'}</DetailValue>
           </DetailRow>
-        </PaymentDetails>
+        </ErrorDetails>
 
         <ActionButtons>
-          <ActionButton to="/dashboard" className="primary">
-            <FaUser />
-            Ver Meus Bilhetes
+          <ActionButton to="/checkout" className="primary">
+            <FaTicketAlt />
+            Tentar Novamente
           </ActionButton>
           <ActionButton to="/" className="secondary">
             <FaHome />
             Voltar ao Início
           </ActionButton>
         </ActionButtons>
-      </SuccessCard>
-    </SuccessContainer>
+      </FailedCard>
+    </FailedContainer>
   );
 };
 
-export default PaymentSuccess;
+export default PaymentFailed;
