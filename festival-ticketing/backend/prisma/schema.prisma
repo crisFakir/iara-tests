@@ -1,0 +1,468 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Utilizadores e Autenticação
+model User {
+  id                String    @id @default(uuid())
+  email             String    @unique
+  phone             String    @unique
+  password          String
+  firstName         String
+  lastName          String
+  documentType      DocType   @default(CC)
+  documentNumber    String    @unique
+  dateOfBirth       DateTime
+  isVerified        Boolean   @default(false)
+  isActive          Boolean   @default(true)
+  role              UserRole  @default(CUSTOMER)
+  verificationToken String?
+  resetToken        String?
+  resetTokenExpiry  DateTime?
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  lastLogin         DateTime?
+  
+  // Relações
+  orders            Order[]
+  tickets           Ticket[]
+  organizer         Organizer?
+  notifications     Notification[]
+  sessions          Session[]
+  auditLogs         AuditLog[]
+  
+  @@index([email])
+  @@index([phone])
+  @@index([documentNumber])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  token        String   @unique
+  refreshToken String   @unique
+  ipAddress    String
+  userAgent    String
+  isValid      Boolean  @default(true)
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+  
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([token])
+  @@index([userId])
+}
+
+// Organizadores de Eventos
+model Organizer {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  companyName     String
+  taxNumber       String   @unique
+  address         String
+  city            String
+  postalCode      String
+  country         String   @default("PT")
+  bankAccount     String   // Encrypted
+  mbWayPhone      String?  // Para receber pagamentos
+  isVerified      Boolean  @default(false)
+  verifiedAt      DateTime?
+  commission      Float    @default(0.05) // 5% comissão
+  balance         Float    @default(0)
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  
+  user     User     @relation(fields: [userId], references: [id])
+  events   Event[]
+  payouts  Payout[]
+  
+  @@index([taxNumber])
+}
+
+// Eventos/Festivais
+model Event {
+  id               String    @id @default(uuid())
+  organizerId      String
+  name             String
+  slug             String    @unique
+  description      String    @db.Text
+  category         EventCategory
+  startDate        DateTime
+  endDate          DateTime
+  location         String
+  venue            String
+  city             String
+  country          String   @default("PT")
+  latitude         Float?
+  longitude        Float?
+  imageUrl         String?
+  bannerUrl        String?
+  maxCapacity      Int
+  currentCapacity  Int       @default(0)
+  status           EventStatus @default(DRAFT)
+  isPublished      Boolean   @default(false)
+  publishedAt      DateTime?
+  isFeatured       Boolean   @default(false)
+  allowRefunds     Boolean   @default(true)
+  refundDeadline   DateTime?
+  termsConditions  String?   @db.Text
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  organizer        Organizer @relation(fields: [organizerId], references: [id])
+  ticketTypes      TicketType[]
+  orders           Order[]
+  tickets          Ticket[]
+  validations      Validation[]
+  
+  @@index([slug])
+  @@index([organizerId])
+  @@index([startDate])
+  @@index([status])
+}
+
+// Tipos de Bilhetes
+model TicketType {
+  id             String   @id @default(uuid())
+  eventId        String
+  name           String
+  description    String?
+  price          Float
+  earlyBirdPrice Float?
+  earlyBirdUntil DateTime?
+  quantity       Int
+  sold           Int      @default(0)
+  maxPerOrder    Int      @default(10)
+  isActive       Boolean  @default(true)
+  startSale      DateTime?
+  endSale        DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  
+  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  tickets        Ticket[]
+  orderItems     OrderItem[]
+  
+  @@index([eventId])
+}
+
+// Pedidos/Compras
+model Order {
+  id              String      @id @default(uuid())
+  orderNumber     String      @unique
+  userId          String
+  eventId         String
+  status          OrderStatus @default(PENDING)
+  subtotal        Float
+  tax             Float
+  serviceFee      Float
+  total           Float
+  paymentMethod   PaymentMethod
+  paymentStatus   PaymentStatus @default(PENDING)
+  mbWayPhone      String?
+  mbWayReference  String?
+  paymentId       String?
+  paidAt          DateTime?
+  expiresAt       DateTime?
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @updatedAt
+  
+  user            User        @relation(fields: [userId], references: [id])
+  event           Event       @relation(fields: [eventId], references: [id])
+  items           OrderItem[]
+  tickets         Ticket[]
+  payment         Payment?
+  refund          Refund?
+  
+  @@index([orderNumber])
+  @@index([userId])
+  @@index([eventId])
+  @@index([status])
+  @@index([paymentStatus])
+}
+
+model OrderItem {
+  id           String     @id @default(uuid())
+  orderId      String
+  ticketTypeId String
+  quantity     Int
+  unitPrice    Float
+  total        Float
+  
+  order        Order      @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  ticketType   TicketType @relation(fields: [ticketTypeId], references: [id])
+  
+  @@index([orderId])
+}
+
+// Bilhetes
+model Ticket {
+  id            String    @id @default(uuid())
+  ticketNumber  String    @unique
+  orderId       String
+  userId        String
+  eventId       String
+  ticketTypeId  String
+  qrCode        String    @unique
+  qrCodeUrl     String
+  status        TicketStatus @default(VALID)
+  holderName    String
+  holderEmail   String
+  holderPhone   String?
+  isTransferred Boolean   @default(false)
+  transferredTo String?
+  transferredAt DateTime?
+  validatedAt   DateTime?
+  validatedBy   String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  order         Order     @relation(fields: [orderId], references: [id])
+  user          User      @relation(fields: [userId], references: [id])
+  event         Event     @relation(fields: [eventId], references: [id])
+  ticketType    TicketType @relation(fields: [ticketTypeId], references: [id])
+  validations   Validation[]
+  
+  @@index([ticketNumber])
+  @@index([qrCode])
+  @@index([userId])
+  @@index([eventId])
+  @@index([status])
+}
+
+// Validações de Entrada
+model Validation {
+  id           String   @id @default(uuid())
+  ticketId     String
+  eventId      String
+  validatedBy  String
+  deviceId     String
+  location     String?
+  isValid      Boolean
+  reason       String?
+  ipAddress    String
+  userAgent    String
+  createdAt    DateTime @default(now())
+  
+  ticket       Ticket   @relation(fields: [ticketId], references: [id])
+  event        Event    @relation(fields: [eventId], references: [id])
+  
+  @@index([ticketId])
+  @@index([eventId])
+  @@index([createdAt])
+}
+
+// Pagamentos
+model Payment {
+  id              String        @id @default(uuid())
+  orderId         String        @unique
+  transactionId   String        @unique
+  method          PaymentMethod
+  amount          Float
+  currency        String        @default("EUR")
+  status          PaymentStatus
+  mbWayPhone      String?
+  mbWayReference  String?
+  mbWayStatus     String?
+  processorData   Json?
+  attempts        Int           @default(1)
+  lastAttemptAt   DateTime      @default(now())
+  succeededAt     DateTime?
+  failedAt        DateTime?
+  failureReason   String?
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  
+  order           Order         @relation(fields: [orderId], references: [id])
+  webhooks        PaymentWebhook[]
+  
+  @@index([transactionId])
+  @@index([status])
+}
+
+model PaymentWebhook {
+  id          String   @id @default(uuid())
+  paymentId   String
+  type        String
+  status      String
+  data        Json
+  processedAt DateTime?
+  createdAt   DateTime @default(now())
+  
+  payment     Payment  @relation(fields: [paymentId], references: [id])
+  
+  @@index([paymentId])
+}
+
+// Reembolsos
+model Refund {
+  id            String       @id @default(uuid())
+  orderId       String       @unique
+  amount        Float
+  reason        String
+  status        RefundStatus @default(PENDING)
+  processedAt   DateTime?
+  processedBy   String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+  
+  order         Order        @relation(fields: [orderId], references: [id])
+  
+  @@index([status])
+}
+
+// Pagamentos aos Organizadores
+model Payout {
+  id            String       @id @default(uuid())
+  organizerId   String
+  amount        Float
+  currency      String       @default("EUR")
+  status        PayoutStatus @default(PENDING)
+  method        String
+  reference     String?
+  processedAt   DateTime?
+  createdAt     DateTime     @default(now())
+  
+  organizer     Organizer    @relation(fields: [organizerId], references: [id])
+  
+  @@index([organizerId])
+  @@index([status])
+}
+
+// Notificações
+model Notification {
+  id          String   @id @default(uuid())
+  userId      String
+  type        NotificationType
+  title       String
+  message     String   @db.Text
+  data        Json?
+  isRead      Boolean  @default(false)
+  readAt      DateTime?
+  sentVia     String[] // ["email", "sms", "push"]
+  createdAt   DateTime @default(now())
+  
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  @@index([userId])
+  @@index([isRead])
+}
+
+// Audit Logs
+model AuditLog {
+  id          String   @id @default(uuid())
+  userId      String?
+  action      String
+  entity      String
+  entityId    String
+  oldData     Json?
+  newData     Json?
+  ipAddress   String
+  userAgent   String
+  createdAt   DateTime @default(now())
+  
+  user        User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  @@index([userId])
+  @@index([entity, entityId])
+  @@index([createdAt])
+}
+
+// Enums
+enum UserRole {
+  SUPER_ADMIN
+  ADMIN
+  ORGANIZER
+  STAFF
+  CUSTOMER
+}
+
+enum DocType {
+  CC
+  PASSPORT
+  OTHER
+}
+
+enum EventCategory {
+  MUSIC_FESTIVAL
+  CONCERT
+  THEATER
+  SPORTS
+  CONFERENCE
+  EXHIBITION
+  WORKSHOP
+  OTHER
+}
+
+enum EventStatus {
+  DRAFT
+  PUBLISHED
+  ONGOING
+  COMPLETED
+  CANCELLED
+}
+
+enum OrderStatus {
+  PENDING
+  PROCESSING
+  CONFIRMED
+  CANCELLED
+  REFUNDED
+  EXPIRED
+}
+
+enum PaymentStatus {
+  PENDING
+  PROCESSING
+  SUCCESS
+  FAILED
+  CANCELLED
+  REFUNDED
+}
+
+enum PaymentMethod {
+  MBWAY
+  MULTIBANCO
+  VISA
+  MASTERCARD
+  PAYPAL
+}
+
+enum TicketStatus {
+  VALID
+  USED
+  CANCELLED
+  EXPIRED
+  TRANSFERRED
+}
+
+enum RefundStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  PROCESSED
+}
+
+enum PayoutStatus {
+  PENDING
+  PROCESSING
+  COMPLETED
+  FAILED
+}
+
+enum NotificationType {
+  ORDER_CONFIRMATION
+  PAYMENT_SUCCESS
+  PAYMENT_FAILED
+  TICKET_TRANSFER
+  EVENT_REMINDER
+  EVENT_UPDATE
+  EVENT_CANCELLED
+  REFUND_PROCESSED
+  SYSTEM_ALERT
+}
