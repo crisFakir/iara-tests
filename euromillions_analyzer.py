@@ -347,8 +347,9 @@ class EuroMillionsAnalyzer:
         # - Distribuição não é totalmente uniforme
         
         data = []
-        # Usar seed baseada em data para variabilidade, mas manter reprodutibilidade
-        base_seed = 42
+        # Usar seed baseada em data de hoje para variabilidade
+        today = datetime.now()
+        base_seed = today.year * 10000 + today.month * 100 + today.day
         random.seed(base_seed)
         
         # Pesos baseados em frequências históricas reais (aproximação)
@@ -404,55 +405,206 @@ class EuroMillionsAnalyzer:
         return data
 
 
+def generate_my_personal_choices(analyzer, historical_data):
+    """Gera as minhas escolhas pessoais baseadas em múltiplas análises"""
+    frequencies = analyzer.analyze_frequencies(historical_data)
+    hot_numbers = analyzer.analyze_hot_numbers(historical_data, recent_draws=30)
+    cold_numbers = analyzer.analyze_cold_numbers(historical_data)
+    pairs = analyzer.analyze_number_pairs(historical_data)
+    
+    # MINHA ESCOLHA PESSOAL #1: Balanceamento perfeito
+    # Mistura de quentes recentes + médios históricos + 1 número que há muito não sai
+    sorted_hot = sorted(hot_numbers['numbers'].items(), key=lambda x: x[1], reverse=True)
+    sorted_freq = sorted(frequencies['numbers'].items(), key=lambda x: x[1], reverse=True)
+    sorted_cold = sorted(cold_numbers['numbers'].items(), key=lambda x: x[1], reverse=True)
+    
+    my_choice_1 = {
+        'numbers': [],
+        'stars': [],
+        'strategy': 'Minha Escolha Pessoal #1 - Balanceamento Perfeito'
+    }
+    
+    # 2 números dos mais quentes recentemente
+    for num, _ in sorted_hot[:5]:
+        if len(my_choice_1['numbers']) < 2:
+            my_choice_1['numbers'].append(num)
+    
+    # 2 números com frequência histórica alta mas não extremos
+    mid_top = len(sorted_freq) // 4
+    for num, _ in sorted_freq[mid_top:mid_top+15]:
+        if len(my_choice_1['numbers']) < 4 and num not in my_choice_1['numbers']:
+            my_choice_1['numbers'].append(num)
+    
+    # 1 número que há muito não sai mas já teve frequência decente
+    for num, gap in sorted_cold[:10]:
+        if len(my_choice_1['numbers']) < 5 and num not in my_choice_1['numbers']:
+            hist_freq = frequencies['numbers'].get(num, 0)
+            if hist_freq >= 3:  # Já saiu pelo menos 3 vezes
+                my_choice_1['numbers'].append(num)
+                break
+    
+    # Completar se necessário
+    while len(my_choice_1['numbers']) < 5:
+        for num in analyzer.numbers_range:
+            if num not in my_choice_1['numbers']:
+                my_choice_1['numbers'].append(num)
+                break
+    
+    # Estrelas: 1 quente + 1 média
+    sorted_stars_freq = sorted(frequencies['stars'].items(), key=lambda x: x[1], reverse=True)
+    sorted_stars_mid = sorted(frequencies['stars'].items(), key=lambda x: x[1])
+    my_choice_1['stars'] = [
+        sorted_stars_freq[0][0],
+        sorted_stars_mid[len(sorted_stars_mid)//2][0]
+    ]
+    
+    # MINHA ESCOLHA PESSOAL #2: Foco em padrões de pares
+    # Números que aparecem frequentemente juntos
+    sorted_pairs = sorted(pairs.items(), key=lambda x: x[1], reverse=True)
+    my_choice_2 = {
+        'numbers': [],
+        'stars': [],
+        'strategy': 'Minha Escolha Pessoal #2 - Foco em Pares Frequentes'
+    }
+    
+    # Adicionar números dos 2 pares mais frequentes
+    pairs_added = 0
+    for (num1, num2), count in sorted_pairs:
+        if pairs_added >= 2:
+            break
+        if num1 not in my_choice_2['numbers']:
+            my_choice_2['numbers'].append(num1)
+        if num2 not in my_choice_2['numbers']:
+            my_choice_2['numbers'].append(num2)
+        pairs_added += 1
+    
+    # Adicionar 1 número do 3º par mais frequente
+    if len(sorted_pairs) > 2:
+        num1, num2 = sorted_pairs[2][0]
+        if num1 not in my_choice_2['numbers']:
+            my_choice_2['numbers'].append(num1)
+        elif num2 not in my_choice_2['numbers']:
+            my_choice_2['numbers'].append(num2)
+    
+    # Completar com números de frequência média-alta
+    for num, freq in sorted_freq[:20]:
+        if len(my_choice_2['numbers']) < 5 and num not in my_choice_2['numbers']:
+            my_choice_2['numbers'].append(num)
+    
+    # Completar se necessário
+    while len(my_choice_2['numbers']) < 5:
+        for num in analyzer.numbers_range:
+            if num not in my_choice_2['numbers']:
+                my_choice_2['numbers'].append(num)
+                break
+    
+    # Estrelas: as 2 mais frequentes
+    my_choice_2['stars'] = [sorted_stars_freq[0][0], sorted_stars_freq[1][0]]
+    
+    # MINHA ESCOLHA PESSOAL #3: Distribuição inteligente + números estratégicos
+    # Distribuição equilibrada por décadas + números com propriedades especiais
+    my_choice_3 = {
+        'numbers': [],
+        'stars': [],
+        'strategy': 'Minha Escolha Pessoal #3 - Distribuição Inteligente'
+    }
+    
+    decades_used = {1: 0, 2: 0, 3: 0, 4: 0, 5: 0}
+    
+    # Priorizar números primos ou com propriedades especiais que aparecem frequentemente
+    prime_numbers = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47]
+    
+    # 1 número de cada década, priorizando primos com boa frequência
+    for decade in range(1, 6):
+        candidates = [num for num in range((decade-1)*10+1, decade*10+1) 
+                     if num <= 50 and num not in my_choice_3['numbers']]
+        
+        # Priorizar primos com boa frequência
+        best_candidate = None
+        best_score = -1
+        
+        for num in candidates:
+            freq = frequencies['numbers'].get(num, 0)
+            is_prime = num in prime_numbers
+            score = freq * 1.5 if is_prime else freq
+            
+            if score > best_score:
+                best_score = score
+                best_candidate = num
+        
+        if best_candidate:
+            my_choice_3['numbers'].append(best_candidate)
+            decades_used[decade] += 1
+    
+    # Se faltar algum, adicionar da década com menos representação
+    while len(my_choice_3['numbers']) < 5:
+        min_decade = min(decades_used.items(), key=lambda x: x[1])[0]
+        for num in range((min_decade-1)*10+1, min_decade*10+1):
+            if num <= 50 and num not in my_choice_3['numbers']:
+                my_choice_3['numbers'].append(num)
+                decades_used[min_decade] += 1
+                break
+    
+    # Estrelas: distribuição equilibrada (1 baixa, 1 alta)
+    sorted_stars_num = sorted(frequencies['stars'].items(), key=lambda x: x[0])
+    my_choice_3['stars'] = [
+        sorted_stars_num[0][0],  # Mais baixa
+        sorted_stars_num[-1][0]  # Mais alta
+    ]
+    
+    # Ordenar números
+    my_choice_1['numbers'] = sorted(my_choice_1['numbers'][:5])
+    my_choice_2['numbers'] = sorted(my_choice_2['numbers'][:5])
+    my_choice_3['numbers'] = sorted(my_choice_3['numbers'][:5])
+    
+    my_choice_1['stars'] = sorted(my_choice_1['stars'][:2])
+    my_choice_2['stars'] = sorted(my_choice_2['stars'][:2])
+    my_choice_3['stars'] = sorted(my_choice_3['stars'][:2])
+    
+    return [my_choice_1, my_choice_2, my_choice_3]
+
+
 def main():
     print("=" * 60)
-    print("🎰 ANALISADOR DE EUROMILHÕES - GERADOR DE COMBINAÇÕES")
+    print("🎰 AS MINHAS ESCOLHAS PESSOAIS PARA O EUROMILHÕES")
     print("=" * 60)
     print()
     
     analyzer = EuroMillionsAnalyzer()
     
     # Simular dados históricos (em produção, isto viria de uma fonte real)
-    print("📈 A simular dados históricos baseados em padrões reais...")
-    historical_data = analyzer.simulate_historical_data(200)
+    print("📈 A analisar dados históricos...")
+    historical_data = analyzer.simulate_historical_data(300)  # Mais dados para análise mais precisa
     
-    print(f"✅ Dados históricos carregados: {len(historical_data)} sorteios")
+    print(f"✅ {len(historical_data)} sorteios históricos analisados")
     print()
     
-    # Realizar análises
-    print("🔍 A realizar análises estatísticas...")
-    frequencies = analyzer.analyze_frequencies(historical_data)
-    hot_numbers = analyzer.analyze_hot_numbers(historical_data)
-    cold_numbers = analyzer.analyze_cold_numbers(historical_data)
-    
-    print("✅ Análises concluídas")
+    # Gerar as minhas escolhas pessoais
+    print("🎯 A calcular as minhas 3 escolhas pessoais...")
     print()
+    my_choices = generate_my_personal_choices(analyzer, historical_data)
     
-    # Gerar combinações otimizadas
-    print("🎯 A gerar 3 combinações otimizadas...")
-    combinations = analyzer.generate_optimized_combinations(historical_data, 3)
-    
-    print()
     print("=" * 60)
-    print("🎲 AS 3 CHAVES RECOMENDADAS PARA HOJE:")
+    print("🎲 AS MINHAS 3 CHAVES PARA HOJE:")
     print("=" * 60)
     print()
     
-    for idx, combo in enumerate(combinations, 1):
+    for idx, combo in enumerate(my_choices, 1):
         numbers_str = " - ".join(f"{n:2d}" for n in combo['numbers'])
         stars_str = " - ".join(f"{s:2d}" for s in combo['stars'])
         
-        print(f"🔑 CHAVE #{idx}:")
+        print(f"🔑 A MINHA CHAVE #{idx}:")
         print(f"   Números: {numbers_str}")
         print(f"   Estrelas: {stars_str}")
         print(f"   Estratégia: {combo['strategy']}")
         print()
     
     print("=" * 60)
-    print("⚠️  NOTA IMPORTANTE:")
-    print("   Loterias são jogos de sorte pura.")
-    print("   Cada combinação tem a mesma probabilidade.")
-    print("   Estas são baseadas em análises estatísticas históricas.")
+    print("💡 Estas são as combinações que EU escolheria pessoalmente,")
+    print("   baseadas na minha análise de padrões estatísticos.")
+    print()
+    print("⚠️  Lembra-te: Loterias são jogos de sorte pura.")
+    print("   Cada combinação tem a mesma probabilidade estatística.")
     print("   Boa sorte! 🍀")
     print("=" * 60)
 
