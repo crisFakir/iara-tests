@@ -1,0 +1,53 @@
+{
+  "date": "2025-11-04 12:14:06",
+  "combinations": [
+    {
+      "number": 1,
+      "description": "🔥 ESTRATÉGIA HOT (Números Mais Frequentes)",
+      "main_numbers": [
+        11,
+        19,
+        34,
+        35,
+        42
+      ],
+      "star_numbers": [
+        3,
+        12
+      ],
+      "formatted": "11, 19, 34, 35, 42 + 3, 12"
+    },
+    {
+      "number": 2,
+      "description": "⚖️  ESTRATÉGIA BALANCEADA (Hot + Cold)",
+      "main_numbers": [
+        3,
+        10,
+        27,
+        36,
+        42
+      ],
+      "star_numbers": [
+        1,
+        12
+      ],
+      "formatted": "3, 10, 27, 36, 42 + 1, 12"
+    },
+    {
+      "number": 3,
+      "description": "📊 ESTRATÉGIA ESTATÍSTICA (Distribuição Ponderada)",
+      "main_numbers": [
+        28,
+        29,
+        31,
+        35,
+        47
+      ],
+      "star_numbers": [
+        2,
+        7
+      ],
+      "formatted": "28, 29, 31, 35, 47 + 2, 7"
+    }
+  ]
+}
