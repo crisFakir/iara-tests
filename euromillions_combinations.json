@@ -1,0 +1,50 @@
+{
+  "date": "2025-11-04T12:15:41.130341",
+  "combinations": [
+    {
+      "strategy": "OTIMIZADA (Recomendada)",
+      "main_numbers": [
+        14,
+        20,
+        27,
+        39,
+        49
+      ],
+      "star_numbers": [
+        5,
+        11
+      ],
+      "formatted": "14 - 20 - 27 - 39 - 49 | ⭐ 05 - 11"
+    },
+    {
+      "strategy": "Equilibrada",
+      "main_numbers": [
+        5,
+        8,
+        23,
+        29,
+        40
+      ],
+      "star_numbers": [
+        6,
+        11
+      ],
+      "formatted": "05 - 08 - 23 - 29 - 40 | ⭐ 06 - 11"
+    },
+    {
+      "strategy": "Baseada em Frequência Histórica",
+      "main_numbers": [
+        11,
+        24,
+        27,
+        28,
+        35
+      ],
+      "star_numbers": [
+        1,
+        7
+      ],
+      "formatted": "11 - 24 - 27 - 28 - 35 | ⭐ 01 - 07"
+    }
+  ]
+}
